@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "definitions": {
+    "questions": {
+      "$id": "#/definitions/questions",
+      "type": "object",
+      "description": "Specify the question.",
+      "required": [
+        "type",
+        "answer",
+        "question"
+      ],
+      "additionalProperties": false,
+      "if": {
+        "properties": {
+          "type": {
+            "const": "pg"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "option"
+        ]
+      },
+      "else": {
+        "if": {
+          "properties": {
+            "type": {
+              "const": "pg-tf"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "statement"
+          ]
+        }
+      },
+      "properties": {
+        "type": {
+          "uniqueItems": true,
+          "$id": "#/definitions/questions/type",
+          "description": "Specify the type of the question: pg, pg-ce, pg-tf",
+          "type": "string",
+          "enum": [
+            "pg",
+            "pg-tf",
+            "pg-ce"
+          ],
+          "default": "pg"
+        },
+        "question": {
+          "uniqueItems": true,
+          "$id": "#/definitions/questions/question",
+          "type": "string",
+          "description": "The Question text",
+          "default": ""
+        },
+        "answer": {
+          "$id": "#/definitions/questions/answer",
+          "uniqueItems": true,
+          "type": "string",
+          "description": "The answer of the question",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        },
+        "option": {
+          "$id": "#/definitions/questions/option",
+          "default": {},
+          "description": "An explanation about the purpose of this instance.",
+          "required": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          "title": "The option schema",
+          "type": "object",
+          "properties": {
+            "A": {
+              "$id": "#/properties/any/items/anyOf/0/properties/option/properties/A",
+              "type": "string",
+              "title": "Option A Value",
+              "default": ""
+            },
+            "B": {
+              "$id": "#/properties/any/items/anyOf/0/properties/option/properties/B",
+              "type": "string",
+              "title": "Option B Value",
+              "default": ""
+            },
+            "C": {
+              "$id": "#/properties/any/items/anyOf/0/properties/option/properties/C",
+              "type": "string",
+              "title": "Option C Value",
+              "default": ""
+            },
+            "D": {
+              "$id": "#/properties/any/items/anyOf/0/properties/option/properties/D",
+              "type": "string",
+              "title": "Option D Value",
+              "default": ""
+            },
+            "E": {
+              "$id": "#/properties/any/items/anyOf/0/properties/option/properties/E",
+              "type": "string",
+              "title": "Option E Value",
+              "default": ""
+            }
+          },
+          "additionalProperties": false
+        },
+        "statement": {
+          "$id": "#/definitions/questions/statement",
+          "description": "Statements for cause-effect question.",
+          "anyOf": [
+            {
+              "type": "object",
+              "minItems": 1,
+              "maxItems": 5,
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "array",
+              "minLength": 1,
+              "maxLength": 5,
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": {
+    "type": "array",
+    "items": {
+      "$ref": "#/definitions/questions"
+    }
+  }
+}
