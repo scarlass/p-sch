@@ -41,6 +41,15 @@
         }
       },
       "properties": {
+        "id": {
+          "uniqueItems": true,
+          "$id": "#/definitions/questions/type",
+          "description": "Question number or u could say as id",
+          "anyOf": [
+            { "type": "string" },
+            { "type": "integer" }
+          ]
+        },
         "type": {
           "uniqueItems": true,
           "$id": "#/definitions/questions/type",
