@@ -43,7 +43,7 @@
       "properties": {
         "id": {
           "uniqueItems": true,
-          "$id": "#/definitions/questions/type",
+          "$id": "#/definitions/questions/id",
           "description": "Question number or u could say as id",
           "anyOf": [
             { "type": "string" },
