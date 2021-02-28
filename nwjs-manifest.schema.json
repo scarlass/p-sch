@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "nwjs://schema",
+  "definitions": {},
+  "properties": {
+    "product-string": {
+      "$id": "nwjs/product-string",
+      "description": "NWJS Manifest Field\nUse it to rename the Helper application under macOS.",
+      "type": "string"
+    },
+    "nodejs": {
+      "$id": "nwjs/nodejs",
+      "description": "NWJS Manifest Field\nDisable or Enable Node runtime in nwjs app.",
+      "type": "boolean"
+    },
+    "node-main": {
+      "$id": "nwjs/manifest/node-main",
+      "description": "NWJS Manifest Field\nSpecify the path to a node.js script file. And it will be executed on startup in Node context before the first DOM window load.",
+      "type": "string"
+    },
+    "domain": {
+      "$id": "nwjs/manifest/domain",
+      "description": "NWJS Manifest Field\nSpecify the host in the chrome-extension:// protocol URL used for the application. The web engine will share the same cookies between your application and the website under the same domain.",
+      "type": "string"
+    },
+    "single-instance": {
+      "$id": "nwjs/manifest/single-instance",
+      "description": "NWJS Manifest Field\nSpecify whether to start up single instance of your app. It’s set to true by default.\n\nBy default NW.js only allows one instance of your app. If you want to allow multiple instances of your app running at the same time, set this to false.",
+      "type": "boolean"
+    },
+    "bg-script": {
+      "$id": "nwjs/manifest/bg-script",
+      "description": "NWJS Manifest Field\nBackground script. The script is executed in the background page at the start of application.",
+      "type": "string"
+    },
+    "window": {
+      "type": "object",
+      "description": "NWJS Manifest Field\nControls how the window looks.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id used to identify the window. This will be used to remember the size and position of the window and restore that geometry when a window with the same id is later opened. "
+        },
+        "title": {
+          "type": "string",
+          "description": "The default title of window created by NW.js, it’s very useful if you want to show your own title when the app is starting."
+        },
+        "width": { "type": "number" },
+        "min_width": { "type": "number" },
+        "max_width": { "type": "number" },
+        "height": { "type": "number" },
+        "min_height": { "type": "number" },
+        "max_height": { "type": "number" },
+        "toolbar": {
+          "type": "boolean",
+          "description": "Should the navigation toolbar be showed."
+        },
+        "icon": { "description": "", "enum": [null, "center", "mouse"] },
+        "as_desktop": {
+          "type": "boolean",
+          "description": "(Linux Only)\nShow as desktop background window under X11 environment"
+        },
+        "resizable": {
+          "type": "boolean",
+          "description": "Whether window is resizable.\n\nBeware, if resizable is set to false on OS X and frame is set to true, the user will still be able to make the window fullscreen. Set fullscreen to false to disable the fullscreen control."
+        },
+        "always_on_top": {
+          "type": "boolean",
+          "description": "Whether the window should always stay on top of other windows."
+        },
+        "visible_on_all_workspaces": {
+          "type": "boolean",
+          "description": "(Mac & Linux)\nWhether the window should be visible on all workspaces simultaneously (on platforms that support multiple workspaces, currently Mac OS X and Linux)."
+        },
+        "show_in_taskbar": {
+          "type": "boolean",
+          "description": "Whether the window is shown in taskbar or dock.\nThe default is true."
+        },
+        "fullscreen": {
+          "type": "boolean",
+          "description": "Whether window is fullscreen.\n\nBeware, if frame is also set to false in fullscreen it will prevent the mouse from being captured on the very edges of the screen. You should avoid activate it if fullscreen is also set to true."
+        },
+        "show": {
+          "type": "boolean",
+          "description": "Specify it to false if you want your app to be hidden on startup "
+        },
+        "kiosk": {
+          "type": "boolean",
+          "description": "Whether to use Kiosk mode. In Kiosk mode, the app will be fullscreen and try to prevent users from leaving the app, so you should remember to provide a way in app to leave Kiosk mode. This mode is mainly used for presentation on public displays"
+        },
+        "transparent": {
+          "type": "boolean",
+          "description": "Whether to turn on transparent window mode. The default is false.\n\nControl the transparency with rgba background value in CSS. Use command line option --disable-transparency to disable this feature completely.\n\nThere is experimental support for “click-through” on the transparent region: add --disable-gpu option to the command line."
+        }
+      }
+    },
+    "webkit": {
+      "type": "object",
+      "description": "NWJS Manifest Field\n\nControls what features of WebKit should be on/off.",
+      "properties": {}
+    },
+    "user-agent": {
+      "type": "string",
+      "description": "NWJS Manifest Field\n\nOverride the User-Agent header in HTTP requests made from the application.\n\nThe following placeholders are available to composite the user agent dynamically:\n%name: replaced by the name field in the manifest.\n%ver: replaced by the version field in the manifest, if available.\n%nwver: replaced by the version of NW.js.\n%webkit_ver: replaced by the version of Blink engine.\n%chromium_ver: replaced by the Chromium version\n%osinfo: replaced by the OS and CPU information you would see in browser’s user agent string."
+    },
+    "node-remote": {
+      "description": "Enable calling Node in remote pages. The value controls for which sites this feature should be turned on. Each item in the array follows the match patterns used in Chrome extension.\n\nA match pattern is essentially a URL that begins with a permitted scheme (http, https, file, or ftp, and that can contain '*' characters. The special pattern <all_urls> matches any URL that starts with a permitted scheme. Each match pattern has 3 parts:\nscheme — for example, http or file or *\nhost — for example, www.google.com or *.google.com or *; if the scheme is file, there is no host part\n\npath — for example, /*, /foo*, or /foo/bar. The path must be present in a host permission, but is always treated as /*.",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "chromium-args": {
+      "type": "string",
+      "description": "NWJS Manifest Field\n\nSpecify chromium (content shell) command line arguments.\n\nIt will be useful if you want to distribute the app with some custom chromium args. For example, if you want to disable the GPU accelerated video display, just add \"chromium-args\" : \"--disable-accelerated-video\". If you want to add multiple arguments, separate each two arguments by space. This field can take a number of flags in one argument as well, via enclosing them in single quotation marks.\n\nThe value of NW_PRE_ARGS environment variable is prepended to the value of this field."
+    },
+    "crash_report_url": {
+      "type": "string",
+      "description": "NWJS Manifest Field\n\nURL of the crash report server.\n\nOnce the app crashed, the crash dump file and information about the runtime environment will be sent to the crash server. It’s sent in the same way as in Chromium browser: a HTTP POST request with multipart/form-data as the content type. In theory, any breakpad/crashpad server could handle the request, since breakpad/crashpad work in the same way in NW as they do in Chromium. See a very simple server used in our test case, or simple-breakpad-server.\n\nThe request contains the following field at least:\nprod - the name field in the manifest of your application\nver - the version field in the manifest of your applicationupload_file_minidump - the binary contents of the minidump file\nswitch-n - the command line switches of the crashing process. There are multiple fields for each switch where n is a number starting from 1."
+    },
+    "js-flags": {
+      "type": "string",
+      "description": "NWJS Manifest Field\n\nSpecify the flags passed to JS engine (v8)."
+    },
+    "inject_js_start": {
+      "type": "string",
+      "description": "NWJSManifest Field\n\nA local filename, relative to the application path, used to specify a JavaScript file to inject to the window.\n\nThe injecting JavaScript code is to be executed after any files from css, but before any other DOM is constructed or any other script is run."
+    },
+    "inject_js_end": {
+      "type": "string",
+      "description": "NWJS Manifest Field\n\nA local filename, relative to the application path, used to specify a JavaScript file to inject to the window.\n\nThe injecting JavaScript code is to be executed after the document object is loaded, before onload event is fired. This is mainly to be used as an option of Window.open() to inject JS in a new window."
+    },
+    "additional_trust_anchors": {
+      "type": "array",
+      "description": "NWJS Manifest Field\n\nContaining a list of PEM-encoded certificates",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dom_storage_quota": {
+      "type": "number",
+      "description": "NWJS Manifest Field\n\nNumber of mega bytes (MB) for the quota of the DOM storage. The suggestion is to put double the value you want."
+    },
+    "no-edit-menu": {
+      "type": "boolean",
+      "description": "NWJS Manifest Field (Mac Only)\n\nWhether the default Edit menu should be disabled on Mac OS X. The default value is false. Only effective on Mac OS X."
+    }
+  }
+}
